@@ -21,10 +21,11 @@ public class EchoTCPServer {
 		System.out.println("Servidor ejecutandose en el puerto : " + PORT);
 	}
 
-	public void init() throws Exception {
+	public void init() throws Exception
+    {
 		listener = new ServerSocket(PORT);
-                serverSideSocket = listener.accept();
-                createStreams(serverSideSocket);
+        serverSideSocket = listener.accept();//espera a que el cliente se comunique
+        createStreams(serverSideSocket);
 		protocol(serverSideSocket);
 		while (true)
                 {              
@@ -114,8 +115,11 @@ public class EchoTCPServer {
 
 		toNetwork.println(answer);
 	}
-
-	private void createStreams(Socket socket) throws Exception {
+    /*
+    Método que me permite recibir(inputStreamReader) mensajes del cliente
+     */
+	private void createStreams(Socket socket) throws Exception
+    {
 		toNetwork = new PrintWriter(socket.getOutputStream(), true);
 		fromNetwork = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 	}
