@@ -1,10 +1,10 @@
 package Servidor;
 
-public class Usuario {
+public class Estudiante {
     private String login;
     private String clave;
 
-    public Usuario(String login, String clave) {
+    public Estudiante(String login, String clave) {
         this.login = login;
         this.clave = clave;
     }

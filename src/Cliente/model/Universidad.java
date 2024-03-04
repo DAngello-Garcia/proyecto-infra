@@ -59,4 +59,14 @@ public class Universidad implements Serializable {
         System.out.println("Matriculado");
         return null;
     }
+
+    public Estudiante agregarEstudiante(Estudiante est) {
+        Estudiante estudiante = new Estudiante();//nuevo
+        estudiante.setNombre(est.getNombre());
+        estudiante.setClave(est.getClave());
+        estudiante.setCodigo(est.getCodigo());
+        getListaEstudiantes().add(estudiante);//acá se guarda el producto, es el final de la comunicación entre clases
+        //ahora lo retorno ya con los datos settiados y hago lo inverso, devolverme!!
+        return estudiante;
+    }
 }

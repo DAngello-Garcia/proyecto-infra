@@ -1,7 +1,5 @@
 package Servidor.persistencia;
 
-
-
 import Servidor.model.*;
 
 import java.io.*;
@@ -9,11 +7,10 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 public class Persistencia {
-    public static final String RUTA_ARCHIVO_ESTUDIANTES = "src/main/resources/persistencia/estudiantes.txt";
-    public static final String RUTA_ARCHIVO_MATRICULAS = "src/main/resources/persistencia/matriculas.txt";
-    public static final String RUTA_ARCHIVO_CARRERAS = "src/main/resources/persistencia/carreras.txt";
-    ;
-    public static final String RUTA_ARCHIVO_MATERIAS = "src/main/resources/persistencia/materias.txt";
+    public static final String RUTA_ARCHIVO_ESTUDIANTES = "src/Servidor/archivostxt/Estudiantes.txt";
+    public static final String RUTA_ARCHIVO_MATRICULAS = "src/Servidor/archivostxt/Matriculas.txt";
+    public static final String RUTA_ARCHIVO_CARRERAS = "src/Servidor/archivostxt/Carreras.txt";
+    public static final String RUTA_ARCHIVO_MATERIAS = "src/Servidor/archivostxt/Materias.txt";
 
     public static void guardarEstudiantes(List<Estudiante> listaEstudiantes) throws IOException {
         String contenido = "";
@@ -67,7 +64,7 @@ public class Persistencia {
             if (!linea.isEmpty()) {
                 String[] partes = linea.split("@@");
                 Estudiante estudiante = new Estudiante();
-                estudiante.setClave(partes[0]);
+                estudiante.setCodigo(partes[0]);
                 estudiante.setNombre(partes[1]);
                 estudiante.setClave(partes[2]);
                 estudiantes.add(estudiante);
@@ -166,4 +163,5 @@ public class Persistencia {
         universidad.setListaMaterias(listaMaterias);
         universidad.setListaMatriculas(listaMatriculas);
     }
+
 }

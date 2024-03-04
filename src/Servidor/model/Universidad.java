@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Universidad implements Serializable {
+
     private static final long serialVersionUID = 1L;
     private List<Carrera> listaCarreras = new ArrayList<>();
     private List<Estudiante> listaEstudiantes = new ArrayList<>();
@@ -59,4 +60,6 @@ public class Universidad implements Serializable {
         System.out.println("Matriculado");
         return null;
     }
+
+
 }
