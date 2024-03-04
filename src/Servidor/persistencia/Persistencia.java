@@ -31,7 +31,9 @@ public class Persistencia {
     public static void guardarMaterias(List<Materia> listaMaterias) throws IOException {
         String contenido = "";
         for (Materia materia : listaMaterias) {
-            contenido += materia.getCodigo() + "@@" + materia.getNombre() + "@@" + materia.getCreditos() + "@@" + materia.getTipoMateria().getTipo() + "@@" + materia.getTipoMateria().getCosto()+ "@@" + materia.getCarrera().getCodigo() + "\n";
+            contenido += materia.getCodigo() + "@@" + materia.getNombre() + "@@" + materia.getCreditos()
+                    + "@@" + materia.getTipoMateria().getTipo() + "@@" + materia.getTipoMateria().getCosto()
+                    + "@@" + materia.getCarrera().getCodigo() + "\n";
         }
         guardarArchivo(RUTA_ARCHIVO_MATERIAS, contenido);
     }

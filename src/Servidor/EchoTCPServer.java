@@ -14,7 +14,7 @@ public class EchoTCPServer {
 	private Socket serverSideSocket;
 	private PrintWriter toNetwork;
 	private BufferedReader fromNetwork;
-        private PrincipalServidor serv;
+    private PrincipalServidor serv;
         
 	public EchoTCPServer(PrincipalServidor ps) {
                 serv = ps;
@@ -39,7 +39,7 @@ public class EchoTCPServer {
             String idTrans, log, cla, ced, numCue, saldo;
             createStreams(serverSideSocket);
             String cadena = fromNetwork.readLine();
-            String resul[] = cadena.split(";");
+            String resul[] = cadena.split("@");
             String respuesta="";
             String respuesta1="";
             double s;
@@ -53,7 +53,7 @@ public class EchoTCPServer {
                           break;   
                           
                     
-                case "2": respuesta= serv.buscarCuenta(resul[1]);
+                /*case "2": respuesta= serv.buscarCuenta(resul[1]);
                           break;
                           
                 case "3": respuesta= serv.buscarCuenta(resul[1]);
@@ -101,7 +101,7 @@ public class EchoTCPServer {
                           {
                               respuesta="";
                           }
-                          break;
+                          break;*/
                           
             }
             return respuesta;   

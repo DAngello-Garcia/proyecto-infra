@@ -3,7 +3,6 @@ package Servidor;
 import Servidor.model.*;
 import Servidor.model.Estudiante;
 import Servidor.persistencia.Persistencia;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +32,9 @@ public class PrincipalServidor {
 
     public void datosQuemados() throws IOException {
         this.listaEstudiantes = new ArrayList();
+        this.listaMaterias = new ArrayList<>();
+        this.listaMatriculas = new ArrayList<>();
+        this.listaCarreras = new ArrayList<>();
 
         Estudiante est1 = new Estudiante();
         est1.setClave("123");
@@ -126,14 +128,14 @@ public class PrincipalServidor {
         universidad.getListaMaterias().add(POO);
 
         Materia logica = new Materia();
-        POO.setCodigo("123");
-        POO.setNombre("logica");
-        POO.setCreditos(3);
+        logica.setCodigo("123");
+        logica.setNombre("logica");
+        logica.setCreditos(3);
         TipoMateria tipoMateria5 = new TipoMateria();
         tipoMateria5.setTipo("practica");
         tipoMateria5.setCosto(115);
-        POO.setTipoMateria(tipoMateria5);
-        POO.setCarrera(ingenieria);
+        logica.setTipoMateria(tipoMateria5);
+        logica.setCarrera(ingenieria);
         listaMaterias.add(logica);
         universidad.getListaMaterias().add(logica);
 
@@ -181,8 +183,8 @@ public class PrincipalServidor {
         TipoMateria tipoMateria9 = new TipoMateria();
         tipoMateria9.setTipo("teorica y practica");
         tipoMateria9.setCosto(130);
-        numerosNaturales.setTipoMateria(tipoMateria9);
-        numerosNaturales.setCarrera(matematicas);
+        numerosEnteros.setTipoMateria(tipoMateria9);
+        numerosEnteros.setCarrera(matematicas);
         listaMaterias.add(numerosEnteros);
         universidad.getListaMaterias().add(numerosEnteros);
 //**************************************Materias física*******************************************
@@ -229,8 +231,8 @@ public class PrincipalServidor {
         TipoMateria tipoMateria13 = new TipoMateria();
         tipoMateria13.setTipo("teorica");
         tipoMateria13.setCosto(100);
-        leyesFisicas.setTipoMateria(tipoMateria13);
-        leyesFisicas.setCarrera(fisica);
+        electricidad.setTipoMateria(tipoMateria13);
+        electricidad.setCarrera(fisica);
         listaMaterias.add(electricidad);
         universidad.getListaMaterias().add(electricidad);
 
@@ -241,32 +243,13 @@ public class PrincipalServidor {
         TipoMateria  tipoMateria14 = new TipoMateria();
         tipoMateria14.setTipo("teorica");
         tipoMateria14.setCosto(100);
-        leyesFisicas.setTipoMateria( tipoMateria14);
-        leyesFisicas.setCarrera(fisica);
+        vectores.setTipoMateria( tipoMateria14);
+        vectores.setCarrera(fisica);
         listaMaterias.add(vectores);
         universidad.getListaMaterias().add(vectores);
 
         persistencia.guardarMaterias(listaMaterias);//persitencia para guardar materias
     }
-
-   /* public Producto agregarProductoVendedor(Producto producto)
-    {
-        {
-            Producto p = null;
-
-            try
-            {
-                p = getTienda().agregarProductoVendedor(producto);
-                persistencia.guardarProductos(getTienda().getListaProductos());
-            }
-            catch (Exception e)
-            {
-                e.printStackTrace();
-            }
-            return p;
-        }
-    }*/
-
 
     public void menu() throws Exception
     {
@@ -279,20 +262,20 @@ public class PrincipalServidor {
         return universidad;
     }
 
-    /*  public boolean buscarUsuario(String login, String clave)
+   public boolean buscarUsuario(String login, String clave)
     {
         boolean encontrado=false;
-        
-        for(int i = 0; i< ListaEstudiantes.size() && encontrado==false; i++)
+
+        for(int i = 0; i< listaEstudiantes.size() && encontrado==false; i++)
         {
-            if (ListaEstudiantes.get(i).getLogin().equals(login) && ListaEstudiantes.get(i).getClave().equals(clave))
+            if (listaEstudiantes.get(i).getNombre().equals(login) && listaEstudiantes.get(i).getClave().equals(clave))
             {
                 encontrado =true;
             }
-        }       
+        }
         return encontrado;
-    }  */
-    
+    }
+
    /* public String buscarCuenta(String numero)
     {
         String cuenta="";
@@ -307,10 +290,10 @@ public class PrincipalServidor {
         }
         return cuenta;
     }*/
-        
+
     /*public String actualizarSaldoCuenta(String numero, double s) {
         String res="";
-        
+
         boolean encontrado=false;
         for(int i=0;i<ListaCuentas.size() && encontrado==false;i++)
         {
