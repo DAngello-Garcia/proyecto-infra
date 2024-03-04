@@ -26,7 +26,7 @@ public class PrincipalServidor {
 
     public PrincipalServidor() throws Exception
     {
-        datosQuemados();   
+        datosQuemados();
         menu();
     }
 
@@ -212,7 +212,7 @@ public class PrincipalServidor {
 
         Materia leyesMaswel = new Materia();
         leyesMaswel.setCodigo("123");
-        leyesMaswel.setNombre("aritmetica");
+        leyesMaswel.setNombre("leyesMaswel");
         leyesMaswel.setCreditos(3);
         TipoMateria tipoMateria12 = new TipoMateria();
         tipoMateria12.setTipo("teorica");
@@ -224,7 +224,7 @@ public class PrincipalServidor {
 
         Materia electricidad = new Materia();
         electricidad.setCodigo("123");
-        electricidad.setNombre("aritmetica");
+        electricidad.setNombre("electricidad");
         electricidad.setCreditos(3);
         TipoMateria tipoMateria13 = new TipoMateria();
         tipoMateria13.setTipo("teorica");
@@ -236,7 +236,7 @@ public class PrincipalServidor {
 
         Materia vectores = new Materia();
         vectores.setCodigo("123");
-        vectores.setNombre("aritmetica");
+        vectores.setNombre("vectores");
         vectores.setCreditos(3);
         TipoMateria  tipoMateria14 = new TipoMateria();
         tipoMateria14.setTipo("teorica");
