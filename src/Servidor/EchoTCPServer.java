@@ -36,25 +36,26 @@ public class EchoTCPServer {
         
         public String leerMensaje() throws IOException, Exception
         {
-            String idTrans, log, cla, ced, numCue, saldo;
+            String idTrans, nombre, codigo, ced, numCue, saldo;
             createStreams(serverSideSocket);
-            String cadena = fromNetwork.readLine();
-            String resul[] = cadena.split("@");
+            String cadena = fromNetwork.readLine();//captura los datos del cliente
+            String resul[] = cadena.split("@@");//parte los datos del cliente donde vea "@@"
             String respuesta="";
             String respuesta1="";
             double s;
             
             switch (resul[0])
             {
-                case "1": log = resul[1];
-                          cla = resul[2];
-                          if (serv.buscarUsuario(log,cla)==true)
+                case "1": nombre = resul[1];
+                          codigo = resul[2];
+                          if (serv.buscarUsuario(nombre,codigo)==true)
                               respuesta = "ok";
                           break;   
                           
                     
                 /*case "2": respuesta= serv.buscarCuenta(resul[1]);
                           break;
+
                           
                 case "3": respuesta= serv.buscarCuenta(resul[1]);
                           if (respuesta!="")

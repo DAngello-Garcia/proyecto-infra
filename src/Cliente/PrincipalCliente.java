@@ -21,16 +21,16 @@ public class PrincipalCliente {
     
     public void menu() throws IOException
     {
-        int opc;
+        int opcion;
         int cerrar;
         String numeroC, numeroCD;
         String respuesta;
-        String log, cla;
+        String nombre, clave;
         boolean logueado=false;
         String dinero;
         do
         {
-           opc = Integer.parseInt(JOptionPane.showInputDialog("Universidad del chavo \n\n"
+           opcion = Integer.parseInt(JOptionPane.showInputDialog("Universidad del chavo \n\n"
                         + "1. Ingresar a la universidad \n"
                         + "2. Registrar carrera \n"
                         + "3. Registrar asignaturas \n"
@@ -38,16 +38,18 @@ public class PrincipalCliente {
                         + "5. Transferir efectivo \n"
                         + "6. Salir"));
            
-           switch (opc)
+           switch (opcion)
            {
-               case 1: log = JOptionPane.showInputDialog("Ingrese su Login: ");
-                       cla = JOptionPane.showInputDialog("Ingrese su clave: ");
-                       cliente.enviarMensaje(opc+";"+log+";"+cla);
+               case 1: nombre = JOptionPane.showInputDialog("Ingrese su nombre: ");
+                       clave = JOptionPane.showInputDialog("Ingrese su clave: ");
+
+                       cliente.enviarMensaje(opcion+";"+nombre+";"+clave);//envia los datos al servidor
+
                        respuesta = cliente.leerMensaje();
                        if (respuesta.equals("ok"))
                        {
                            logueado=true;
-                           JOptionPane.showMessageDialog(null, "Bienvenido " + log); 
+                           JOptionPane.showMessageDialog(null, "Bienvenido " + nombre);
                        }
                        else
                        {
@@ -62,7 +64,7 @@ public class PrincipalCliente {
                        else
                        {
                            numeroC = JOptionPane.showInputDialog("Ingrese numero de cuenta: ");
-                           cliente.enviarMensaje(opc+";"+numeroC);
+                           cliente.enviarMensaje(opcion+";"+numeroC);
                            respuesta = cliente.leerMensaje();
                            if (respuesta!="")
                              JOptionPane.showMessageDialog(null,respuesta);
@@ -79,7 +81,7 @@ public class PrincipalCliente {
                        {
                            numeroC = JOptionPane.showInputDialog("Ingrese numero de cuenta: ");
                            dinero = JOptionPane.showInputDialog("Ingrese la cantidad a consignar: ");
-                           cliente.enviarMensaje(opc+";"+numeroC+";"+dinero);
+                           cliente.enviarMensaje(opcion+";"+numeroC+";"+dinero);
                            respuesta = cliente.leerMensaje();
                            if (respuesta!="")
                              JOptionPane.showMessageDialog(null,"Nuevos datos: \n "+respuesta);
@@ -96,7 +98,7 @@ public class PrincipalCliente {
                        {
                            numeroC = JOptionPane.showInputDialog("Ingrese numero de cuenta: ");
                            dinero = JOptionPane.showInputDialog("Ingrese la cantidad a retirar: ");
-                           cliente.enviarMensaje(opc+";"+numeroC+";"+dinero);
+                           cliente.enviarMensaje(opcion+";"+numeroC+";"+dinero);
                            respuesta = cliente.leerMensaje();
                            if (respuesta!="")
                              JOptionPane.showMessageDialog(null,"nuevos datos: \n"+ respuesta);
@@ -114,7 +116,7 @@ public class PrincipalCliente {
                            numeroC = JOptionPane.showInputDialog("Ingrese numero de cuenta origen: ");
                            numeroCD = JOptionPane.showInputDialog("Ingrese numero de cuenta destino: ");
                            dinero = JOptionPane.showInputDialog("Ingrese la cantidad a transferir: ");
-                           cliente.enviarMensaje(opc+";"+numeroC+";"+numeroCD+";"+dinero);
+                           cliente.enviarMensaje(opcion+";"+numeroC+";"+numeroCD+";"+dinero);
                            respuesta = cliente.leerMensaje();
                            if (respuesta!="")
                              JOptionPane.showMessageDialog(null,"nuevos datos: \n"+ respuesta);
@@ -138,7 +140,7 @@ public class PrincipalCliente {
            }
            
         }
-        while(opc!=6);
+        while(opcion!=6);
         
     }
     

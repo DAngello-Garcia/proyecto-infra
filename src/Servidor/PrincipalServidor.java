@@ -263,13 +263,13 @@ public class PrincipalServidor {
         return universidad;
     }
 
-   public boolean buscarUsuario(String login, String clave)
+   public boolean buscarUsuario(String nombre, String codigo)
     {
         boolean encontrado=false;
 
         for(int i = 0; i< listaEstudiantes.size() && encontrado==false; i++)
         {
-            if (listaEstudiantes.get(i).getNombre().equals(login) && listaEstudiantes.get(i).getClave().equals(clave))
+            if (listaEstudiantes.get(i).getNombre().equals(nombre) && listaEstudiantes.get(i).getCodigo().equals(codigo))
             {
                 encontrado =true;
             }
