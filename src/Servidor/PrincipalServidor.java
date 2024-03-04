@@ -3,6 +3,8 @@ package Servidor;
 import Servidor.model.*;
 import Servidor.model.Estudiante;
 import Servidor.persistencia.Persistencia;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -24,6 +26,12 @@ public class PrincipalServidor {
 
     public PrincipalServidor() throws Exception
     {
+        datosQuemados();   
+        menu();
+    }
+
+
+    public void datosQuemados() throws IOException {
         this.listaEstudiantes = new ArrayList();
 
         Estudiante est1 = new Estudiante();
@@ -239,8 +247,6 @@ public class PrincipalServidor {
         universidad.getListaMaterias().add(vectores);
 
         persistencia.guardarMaterias(listaMaterias);//persitencia para guardar materias
-
-        menu();
     }
 
    /* public Producto agregarProductoVendedor(Producto producto)
