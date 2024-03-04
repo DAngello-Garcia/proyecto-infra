@@ -25,6 +25,7 @@ public class PrincipalServidor {
 
     public PrincipalServidor() throws Exception
     {
+        server = new EchoTCPServer(this);
         datosQuemados();
         menu();
     }
@@ -38,22 +39,22 @@ public class PrincipalServidor {
 
         Estudiante est1 = new Estudiante();
         est1.setClave("123");
-        est1.setCodigo("123");
+        est1.setCodigo("789");
         est1.setNombre("Luisa");
         listaEstudiantes.add(est1);
         universidad.getListaEstudiantes().add(est1);
 
         Estudiante est2 = new Estudiante();
-        est2.setClave("123");
-        est2.setCodigo("123");
-        est2.setNombre("Luisa");
+        est2.setClave("456");
+        est2.setCodigo("456");
+        est2.setNombre("Yan");
         listaEstudiantes.add(est2);
         universidad.getListaEstudiantes().add(est2);
 
         Estudiante est3 = new Estudiante();
-        est3.setClave("123");
+        est3.setClave("789");
         est3.setCodigo("123");
-        est3.setNombre("Luisa");
+        est3.setNombre("D'angelo");
         listaEstudiantes.add(est3);
         universidad.getListaEstudiantes().add(est3);
 

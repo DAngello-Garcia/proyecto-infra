@@ -30,11 +30,11 @@ public class PrincipalCliente {
         String dinero;
         do
         {
-           opc = Integer.parseInt(JOptionPane.showInputDialog("BANCO LOS DESALMADOS \n\n"
-                        + "1. Ingresar al banco \n" 
-                        + "2. Consultar saldo \n"
-                        + "3. Consignar dinero \n"
-                        + "4. Retirar efectivo \n"
+           opc = Integer.parseInt(JOptionPane.showInputDialog("Universidad del chavo \n\n"
+                        + "1. Ingresar a la universidad \n"
+                        + "2. Registrar carrera \n"
+                        + "3. Registrar asignaturas \n"
+                        + "4. Registrar matricula \n"
                         + "5. Transferir efectivo \n"
                         + "6. Salir"));
            
