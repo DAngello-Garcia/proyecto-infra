@@ -26,8 +26,15 @@ public class PrincipalServidor {
         return universidad.mostrarCarreras();
     }
 
-    public String mostrarMaterias() {
-        return null;
+    public String mostrarMaterias(String carrera) {
+        return universidad.mostrarMaterias(carrera);
     }
 
+    public boolean login(String user, String pass) {
+        return universidad.login(user, pass);
+    }
+
+    public String matricular(String materia) {
+        return universidad.matricular(materia);
+    }
 }

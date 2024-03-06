@@ -1,7 +1,6 @@
 package Servidor;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
@@ -9,11 +8,11 @@ import java.net.Socket;
 
 public class EchoTCPServer {
     public static final int PORT = 3400;
+    private final PrincipalServidor serv;
     private ServerSocket listener;
     private Socket serverSideSocket;
     private PrintWriter toNetwork;
     private BufferedReader fromNetwork;
-    private final PrincipalServidor serv;
 
     public EchoTCPServer(PrincipalServidor ps) {
         serv = ps;
@@ -32,67 +31,28 @@ public class EchoTCPServer {
     }
 
     public String leerMensaje() throws Exception {
-        String idTrans, nombre, codigo, ced, numCue, saldo;
         createStreams(serverSideSocket);
         String cadena = fromNetwork.readLine();
+        String[] resul = cadena.split("@");
         String respuesta = "";
 
-        switch (cadena) {
+        switch (resul[0]) {
             case "1":
+                if (serv.login(resul[1], resul[2]))
+                    respuesta = "ok";
+                break;
+
+            case "2":
                 respuesta = serv.mostrarCarreras();
                 break;
-                          
-                    
-                /*case "2": respuesta= serv.buscarCuenta(resul[1]);
-                          break;
 
-                          
-                case "3": respuesta= serv.buscarCuenta(resul[1]);
-                          if (respuesta!="")
-                          {
-                              String cuen[] = respuesta.split(";");
-                              s = Double.parseDouble(cuen[2])+Double.parseDouble(resul[2]);
-                              respuesta = serv.actualizarSaldoCuenta(resul[1],s);
-                          }
-                          else
-                          {
-                              respuesta="";
-                          }
-                          break;   
-                
-                case "4": respuesta= serv.buscarCuenta(resul[1]);
-                          if (respuesta!="")
-                          {
-                              String cuen[] = respuesta.split(";");
-                              s = Double.parseDouble(cuen[2])-Double.parseDouble(resul[2]);
-                              respuesta = serv.actualizarSaldoCuenta(resul[1],s);
-                          }
-                          else
-                          {
-                              respuesta="";
-                          }
-                          break;
-                 
-                case "5": respuesta= serv.buscarCuenta(resul[1]);
-                          respuesta1 = serv.buscarCuenta(resul[2]);
-                          if (respuesta!="" && respuesta1!="")
-                          {
-                              String cuen[] = respuesta.split(";");
-                              s = Double.parseDouble(cuen[2])-Double.parseDouble(resul[3]);
-                              String resp = serv.actualizarSaldoCuenta(resul[1],s);
-                              
-                              String cuen1[]=respuesta1.split(";");
-                              s = Double.parseDouble(cuen1[2])+Double.parseDouble(resul[3]);
-                              respuesta1 = serv.actualizarSaldoCuenta(resul[2],s);
-                              
-                              respuesta ="Nuevos datos cuenta origen: " + resp + 
-                                         "Nuevos datos cuenta destino: "+respuesta1;
-                          }
-                          else
-                          {
-                              respuesta="";
-                          }
-                          break;*/
+            case "3":
+                respuesta = serv.mostrarMaterias(resul[1]);
+                break;
+
+            case "4":
+                respuesta = serv.matricular(resul[1]);
+                break;
 
         }
         return respuesta;
