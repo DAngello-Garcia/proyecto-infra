@@ -48,9 +48,11 @@ public class Universidad implements Serializable {
 
     public boolean login(Estudiante estudiante, List<Estudiante> estudiantes) {
         boolean valido = false;
-        for(Estudiante user: estudiantes) {
-            if(user.getCodigo().equals(estudiante.getCodigo()) && user.getClave().equals(estudiante.getClave()))
+        for (Estudiante user : estudiantes) {
+            if (user.getCodigo().equals(estudiante.getCodigo()) && user.getClave().equals(estudiante.getClave())) {
                 valido = true;
+                break;
+            }
         }
         return valido;
     }

@@ -1,16 +1,17 @@
-package Servidor.persistencia;
+package Servidor;
 
 import Servidor.model.*;
 
 import java.io.*;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Persistencia {
-    public static final String RUTA_ARCHIVO_ESTUDIANTES = "src/Servidor/archivostxt/Estudiantes.txt";
-    public static final String RUTA_ARCHIVO_MATRICULAS = "src/Servidor/archivostxt/Matriculas.txt";
-    public static final String RUTA_ARCHIVO_CARRERAS = "src/Servidor/archivostxt/Carreras.txt";
-    public static final String RUTA_ARCHIVO_MATERIAS = "src/Servidor/archivostxt/Materias.txt";
+    public static final String RUTA_ARCHIVO_ESTUDIANTES = "src/Servidor/archivos/estudiantes.txt";
+    public static final String RUTA_ARCHIVO_MATRICULAS = "src/Servidor/archivos/matriculas.txt";
+    public static final String RUTA_ARCHIVO_CARRERAS = "src/Servidor/archivos/carreras.txt";
+    public static final String RUTA_ARCHIVO_MATERIAS = "src/Servidor/archivos/materias.txt";
 
     public static void guardarEstudiantes(List<Estudiante> listaEstudiantes) throws IOException {
         String contenido = "";
@@ -31,9 +32,7 @@ public class Persistencia {
     public static void guardarMaterias(List<Materia> listaMaterias) throws IOException {
         String contenido = "";
         for (Materia materia : listaMaterias) {
-            contenido += materia.getCodigo() + "@@" + materia.getNombre() + "@@" + materia.getCreditos()
-                    + "@@" + materia.getTipoMateria().getTipo() + "@@" + materia.getTipoMateria().getCosto()
-                    + "@@" + materia.getCarrera().getCodigo() + "\n";
+            contenido += materia.getCodigo() + "@@" + materia.getNombre() + "@@" + materia.getCreditos() + "@@" + materia.getTipoMateria().getTipo() + "@@" + materia.getTipoMateria().getCosto() + "@@" + materia.getCarrera().getCodigo() + "\n";
         }
         guardarArchivo(RUTA_ARCHIVO_MATERIAS, contenido);
     }
@@ -41,8 +40,8 @@ public class Persistencia {
     public static void guardarMatriculas(List<Matricula> listaMatriculas) throws IOException {
         String contenido = "";
         for (Matricula matricula : listaMatriculas) {
-            contenido += matricula.getId() + "@@" + matricula.getFecha().toString() + "@@" + matricula.getCosto()+ "@@" + matricula.getEstadoMatricula().toString() + "@@" + matricula.getEstudiante().getCodigo();
-            for (Materia materia: matricula.getMaterias()) {
+            contenido += matricula.getId() + "@@" + matricula.getFecha().toString() + "@@" + matricula.getCosto() + "@@" + matricula.getEstadoMatricula().toString() + "@@" + matricula.getEstudiante().getCodigo();
+            for (Materia materia : matricula.getMaterias()) {
                 contenido += "@@" + materia.getNombre();
             }
             contenido += "\n";
@@ -66,7 +65,7 @@ public class Persistencia {
             if (!linea.isEmpty()) {
                 String[] partes = linea.split("@@");
                 Estudiante estudiante = new Estudiante();
-                estudiante.setCodigo(partes[0]);
+                estudiante.setClave(partes[0]);
                 estudiante.setNombre(partes[1]);
                 estudiante.setClave(partes[2]);
                 estudiantes.add(estudiante);
@@ -165,5 +164,4 @@ public class Persistencia {
         universidad.setListaMaterias(listaMaterias);
         universidad.setListaMatriculas(listaMatriculas);
     }
-
 }

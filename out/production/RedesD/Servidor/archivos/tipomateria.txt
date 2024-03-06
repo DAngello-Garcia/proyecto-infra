@@ -1,0 +1,3 @@
+teórica, 100000
+práctica, 115000
+teórico/práctica, 130000

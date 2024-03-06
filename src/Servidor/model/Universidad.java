@@ -1,5 +1,8 @@
 package Servidor.model;
 
+import Servidor.Persistencia;
+
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,9 +52,11 @@ public class Universidad implements Serializable {
 
     public boolean login(Estudiante estudiante, List<Estudiante> estudiantes) {
         boolean valido = false;
-        for(Estudiante user: estudiantes) {
-            if(user.getCodigo().equals(estudiante.getCodigo()) && user.getClave().equals(estudiante.getClave()))
+        for (Estudiante user : estudiantes) {
+            if (user.getCodigo().equals(estudiante.getCodigo()) && user.getClave().equals(estudiante.getClave())) {
                 valido = true;
+                break;
+            }
         }
         return valido;
     }
@@ -61,5 +66,14 @@ public class Universidad implements Serializable {
         return null;
     }
 
-
+    public String mostrarCarreras() throws IOException {
+        String lista = "";
+        int index = 1;
+        setListaCarreras(Persistencia.cargarCarreras());
+        for (Carrera carrera : getListaCarreras()) {
+            lista += index + ". " + carrera.getNombre() + "@";
+            index++;
+        }
+        return lista;
+    }
 }

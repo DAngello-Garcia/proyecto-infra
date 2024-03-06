@@ -6,51 +6,41 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import javax.swing.JOptionPane;
 
 public class EchoTCPServer {
-	public static final int PORT = 3400;
-	private ServerSocket listener;
-	private Socket serverSideSocket;
-	private PrintWriter toNetwork;
-	private BufferedReader fromNetwork;
-    private PrincipalServidor serv;
-        
-	public EchoTCPServer(PrincipalServidor ps) {
-                serv = ps;
-		System.out.println("Servidor ejecutandose en el puerto : " + PORT);
-	}
+    public static final int PORT = 3400;
+    private ServerSocket listener;
+    private Socket serverSideSocket;
+    private PrintWriter toNetwork;
+    private BufferedReader fromNetwork;
+    private final PrincipalServidor serv;
 
-	public void init() throws Exception
-    {
-		listener = new ServerSocket(PORT);
+    public EchoTCPServer(PrincipalServidor ps) {
+        serv = ps;
+        System.out.println("Servidor ejecutandose en el puerto : " + PORT);
+    }
+
+    public void init() throws Exception {
+        listener = new ServerSocket(PORT);
         serverSideSocket = listener.accept();//espera a que el cliente se comunique
         createStreams(serverSideSocket);
-		protocol(serverSideSocket);
-		while (true)
-                {              
-                        String res = leerMensaje();
-                        responder(res);                  
-		}
-	}
-        
-        public String leerMensaje() throws IOException, Exception
-        {
-            String idTrans, nombre, codigo, ced, numCue, saldo;
-            createStreams(serverSideSocket);
-            String cadena = fromNetwork.readLine();//captura los datos del cliente
-            String resul[] = cadena.split("@@");//parte los datos del cliente donde vea "@@"
-            String respuesta="";
-            String respuesta1="";
-            double s;
-            
-            switch (resul[0])
-            {
-                case "1": nombre = resul[1];
-                          codigo = resul[2];
-                          if (serv.buscarUsuario(nombre,codigo)==true)
-                              respuesta = "ok";
-                          break;   
+        protocol(serverSideSocket);
+        while (true) {
+            String res = leerMensaje();
+            responder(res);
+        }
+    }
+
+    public String leerMensaje() throws Exception {
+        String idTrans, nombre, codigo, ced, numCue, saldo;
+        createStreams(serverSideSocket);
+        String cadena = fromNetwork.readLine();
+        String respuesta = "";
+
+        switch (cadena) {
+            case "1":
+                respuesta = serv.mostrarCarreras();
+                break;
                           
                     
                 /*case "2": respuesta= serv.buscarCuenta(resul[1]);
@@ -103,27 +93,27 @@ public class EchoTCPServer {
                               respuesta="";
                           }
                           break;*/
-                          
-            }
-            return respuesta;   
+
         }
-	
-	public void protocol(Socket socket) throws Exception {
-		String message = fromNetwork.readLine();
-		System.out.println("El Cliente dice: " + message);
+        return respuesta;
+    }
 
-		String answer = "Si sr, lo escucho";
+    public void protocol(Socket socket) throws Exception {
+        String message = fromNetwork.readLine();
+        System.out.println("El Cliente dice: " + message);
 
-		toNetwork.println(answer);
-	}
+        String answer = "Si sr, lo escucho";
+
+        toNetwork.println(answer);
+    }
+
     /*
     Método que me permite recibir(inputStreamReader) mensajes del cliente
      */
-	private void createStreams(Socket socket) throws Exception
-    {
-		toNetwork = new PrintWriter(socket.getOutputStream(), true);
-		fromNetwork = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-	}
+    private void createStreams(Socket socket) throws Exception {
+        toNetwork = new PrintWriter(socket.getOutputStream(), true);
+        fromNetwork = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+    }
 
     private void responder(String res) {
         toNetwork.println(res);
