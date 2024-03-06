@@ -25,6 +25,7 @@ public class PrincipalCliente {
                     + "1. Ingresar a la universidad \n"
                     + "2. Salir"));
 
+
             switch (opcion) {
                 case 1:
                     cliente.enviarMensaje("" + opcion);
