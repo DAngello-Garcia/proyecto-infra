@@ -16,7 +16,7 @@ public class EchoTCPServer {
 
     public EchoTCPServer(PrincipalServidor ps) {
         serv = ps;
-        System.out.println("Servidor ejecutandose en el puerto : " + PORT);
+        System.out.println("Servidor ejecutándose en el puerto: " + PORT);
     }
 
     public void init() throws Exception {
@@ -60,10 +60,8 @@ public class EchoTCPServer {
 
     public void protocol(Socket socket) throws Exception {
         String message = fromNetwork.readLine();
-        System.out.println("El Cliente dice: " + message);
-
-        String answer = "Si sr, lo escucho";
-
+        System.out.println("[Cliente]: " + message);
+        String answer = "Conexión establecida";
         toNetwork.println(answer);
     }
 

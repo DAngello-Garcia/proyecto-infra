@@ -94,19 +94,29 @@ public class PrincipalCliente {
         String carreras = "";
         respuesta = cliente.leerMensaje();
         String[] carrerasServidor = respuesta.split("@");
+        int j = 1;
         for (int i = 0; i < carrerasServidor.length; i++) {
-            carreras += carrerasServidor[i] + "\n";
+            carreras += j + ". " + carrerasServidor[i] + "\n";
+            j++;
         }
 
         opcion = Integer.parseInt(JOptionPane.showInputDialog("Seleccione la carrera \n\n" + carreras));
         do {
             int opcionMateria = 0;
             String materias = "";
-            cliente.enviarMensaje(""+opcion); //para que devuelva las materias
+            cliente.enviarMensaje("3@"+carrerasServidor[opcion - 1]); //para que devuelva las materias
             materias += cliente.leerMensaje();
-            String[] materiasServidor = materias.split("@");
+            String[] materiasServidor = materias.split("@@");
+            materias = "";
+            int k = 1;
             for (int i = 0; i < materiasServidor.length; i++) {
-                carreras += materiasServidor[i] + "\n";
+                String[] materiasDetalladas = materiasServidor[i].split("@");
+                materias += k + ". ";
+                materias += materiasDetalladas[0] + "   ";
+                materias += materiasDetalladas[1] + " créditos   ";
+                materias += materiasDetalladas[2] + "   ";
+                materias += "\n";
+                k++;
             }
 
             opcionMateria =

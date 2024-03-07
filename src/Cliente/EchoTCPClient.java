@@ -19,7 +19,7 @@ public class EchoTCPClient {
     private Socket clientSideSocket;
 
     public EchoTCPClient() {
-        System.out.println("Cliente ejecutandose...");
+        System.out.println("Cliente ejecutándose...");
     }
 
     public Socket getClientSideSocket() {
@@ -41,12 +41,9 @@ public class EchoTCPClient {
     }
 
     public void protocol(Socket socket) throws Exception {
-        System.out.print("Hola, me escucha? ");
-
-        toNetwork.println("\n Soy el cliente");
-
+        toNetwork.println("Estableciendo conexión");
         String fromServer = fromNetwork.readLine();
-        System.out.println("El servidor dice: " + fromServer);
+        System.out.println("[Servidor] " + fromServer);
     }
 
     private void createStreams(Socket socket) throws Exception {

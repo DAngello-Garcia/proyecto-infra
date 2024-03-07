@@ -3,7 +3,8 @@ package Servidor;
 import Servidor.model.*;
 
 import java.io.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,7 +66,7 @@ public class Persistencia {
             if (!linea.isEmpty()) {
                 String[] partes = linea.split("@@");
                 Estudiante estudiante = new Estudiante();
-                estudiante.setClave(partes[0]);
+                estudiante.setCodigo(partes[0]);
                 estudiante.setNombre(partes[1]);
                 estudiante.setClave(partes[2]);
                 estudiantes.add(estudiante);
@@ -124,7 +125,8 @@ public class Persistencia {
             Materia materia = new Materia();
             ArrayList<Materia> materias = new ArrayList<>();
             matricula.setId(partes[0]);
-            matricula.setFecha(LocalDateTime.parse(partes[1]));
+            DateTimeFormatter parser = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            matricula.setFecha(LocalDate.parse(partes[1], parser));
             matricula.setCosto(Double.parseDouble(partes[2]));
             matricula.setEstadoMatricula(EstadoMatricula.valueOf(partes[3]));
             estudiante.setCodigo(partes[4]);
@@ -158,10 +160,45 @@ public class Persistencia {
         List<Carrera> listaCarreras = cargarCarreras();
         List<Materia> listaMaterias = cargarMaterias();
         List<Matricula> listaMatriculas = cargarMatriculas();
+        listaMaterias = cargarCarrerasMaterias(listaCarreras, listaMaterias);
+        listaMatriculas = cargarEstudianteMateriasMatriculas(listaEstudiantes, listaMaterias, listaMatriculas);
 
         universidad.setListaEstudiantes(listaEstudiantes);
         universidad.setListaCarreras(listaCarreras);
         universidad.setListaMaterias(listaMaterias);
         universidad.setListaMatriculas(listaMatriculas);
+    }
+
+    private static List<Matricula> cargarEstudianteMateriasMatriculas(List<Estudiante> listaEstudiantes, List<Materia> listaMaterias, List<Matricula> listaMatriculas) {
+        List<Matricula> matriculas = new ArrayList<>();
+        for (Matricula matricula: listaMatriculas) {
+            for (Estudiante estudiante: listaEstudiantes) {
+                if(estudiante.getCodigo().equals(matricula.getEstudiante().getCodigo())) {
+                    matricula.setEstudiante(estudiante);
+                }
+                for (Materia materiaMatricula: matricula.getMaterias()) {
+                    for (Materia materia: listaMaterias) {
+                        if(materiaMatricula.getNombre().equals(materia.getNombre())) {
+                            int index = matricula.getMaterias().indexOf(materiaMatricula);
+                            matricula.getMaterias().set(index, materia);
+                        }
+                    }
+                }
+            }
+            matriculas.add(matricula);
+        }
+        return matriculas;
+    }
+
+    private static List<Materia> cargarCarrerasMaterias(List<Carrera> listaCarreras, List<Materia> listaMaterias) {
+        List<Materia> materias = new ArrayList<>();
+        for (Materia materia: listaMaterias) {
+            for (Carrera carrera: listaCarreras) {
+                if(materia.getCarrera().getCodigo().equals(carrera.getCodigo()))
+                    materia.setCarrera(carrera);
+            }
+            materias.add(materia);
+        }
+        return materias;
     }
 }

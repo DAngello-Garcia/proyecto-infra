@@ -10,6 +10,7 @@ public class PrincipalServidor {
     private final EchoTCPServer server;
 
     public PrincipalServidor() throws Exception {
+        Persistencia.cargarDatos(universidad);
         server = new EchoTCPServer(this);
         server.init();
     }
@@ -26,11 +27,11 @@ public class PrincipalServidor {
         return universidad.mostrarCarreras();
     }
 
-    public String mostrarMaterias(String carrera) {
+    public String mostrarMaterias(String carrera) throws IOException {
         return universidad.mostrarMaterias(carrera);
     }
 
-    public boolean login(String user, String pass) {
+    public boolean login(String user, String pass) throws IOException {
         return universidad.login(user, pass);
     }
 

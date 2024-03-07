@@ -50,7 +50,7 @@ public class Universidad implements Serializable {
         this.listaMaterias = listaMaterias;
     }
 
-    public boolean login(String user, String pass) {
+    public boolean login(String user, String pass) throws IOException {
         boolean valido = false;
         for (Estudiante estudiante : getListaEstudiantes()) {
             if (estudiante.getCodigo().equals(user) && estudiante.getClave().equals(pass)) {
@@ -67,16 +67,18 @@ public class Universidad implements Serializable {
 
     public String mostrarCarreras() throws IOException {
         String lista = "";
-        int index = 1;
-        setListaCarreras(Persistencia.cargarCarreras());
         for (Carrera carrera : getListaCarreras()) {
-            lista += index + ". " + carrera.getNombre() + "@";
-            index++;
+            lista += carrera.getNombre() + "@";
         }
         return lista;
     }
 
-    public String mostrarMaterias(String carrera) {
-        return "Matriculado";
+    public String mostrarMaterias(String carrera) throws IOException {
+        String lista = "";
+        for (Materia materia : getListaMaterias()) {
+            if (materia.getCarrera().getNombre().equals(carrera))
+            lista += materia.getNombre() + "@" + materia.getCreditos() + "@" + materia.getTipoMateria().getTipo() + "@@";
+        }
+        return lista;
     }
 }
