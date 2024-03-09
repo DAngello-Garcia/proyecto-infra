@@ -62,35 +62,31 @@ public class Universidad implements Serializable {
         return estudianteSesion;
     }
 
-    public String matricular(String matricula) throws IOException {
-        String[] materias = matricula.split("@");
-        Materia materia = obtenerMateria(materias[materias.length - 2]);
-        Estudiante estudiante = obtenerEstudiante(materias[materias.length - 1]);
+    public String matricular(String codigoMateria, String codigoEstudiante) throws IOException {
+        Materia materia = obtenerMateria(codigoMateria);
+        Estudiante estudiante = obtenerEstudiante(codigoEstudiante);
         Matricula matricula1 = obtenerMatricula(estudiante);
-        if(matricula1 == null) {
+        if (matricula1 == null) {
             matricula1 = new Matricula();
             matricula1.setEstudiante(estudiante);
             matricula1.getMaterias().add(materia);
             matricula1.setFecha(LocalDate.now());
             matricula1.setCosto(matricula1.calcularCosto());
+            matricula1.setEstadoMatricula(EstadoMatricula.MATRICULADO);
+            matricula1.setId(estudiante.getCodigo());
+            getListaMatriculas().add(matricula1);
         } else {
             matricula1.getMaterias().add(materia);
             matricula1.setCosto(matricula1.calcularCosto());
         }
         int creditos = matricula1.calcularCreditos();
-        Persistencia.guardarMatriculas(getListaMatriculas());
-        Persistencia.cargarDatos(this);
-        return validarCreditos(creditos) + "@" + creditos;
-    }
-
-    private String validarCreditos(int creditos) {
-        return creditos >= 10 && creditos <= 15 ? "ok" : "no";
+        return "" + creditos;
     }
 
     private Matricula obtenerMatricula(Estudiante estudiante) {
         Matricula matricula = null;
-        for (Matricula matricula1: getListaMatriculas()) {
-            if(matricula1.getEstudiante().getCodigo().equals(estudiante.getCodigo())) {
+        for (Matricula matricula1 : getListaMatriculas()) {
+            if (matricula1.getEstudiante().getCodigo().equals(estudiante.getCodigo())) {
                 matricula = matricula1;
             }
         }
@@ -109,7 +105,7 @@ public class Universidad implements Serializable {
     private Materia obtenerMateria(String codigoMateria) {
         Materia materia = new Materia();
         for (Materia materia1 : getListaMaterias()) {
-            if (materia.getCodigo().equals(codigoMateria))
+            if (materia1.getCodigo().equals(codigoMateria))
                 materia = materia1;
         }
         return materia;
@@ -123,21 +119,47 @@ public class Universidad implements Serializable {
         return lista;
     }
 
-    public String mostrarMaterias(String carrera, String codigoEstudiane) throws IOException {
+    public String mostrarMaterias(String carrera, String codigoEstudiante) throws IOException {
         String lista = "";
         for (Materia materia : getListaMaterias()) {
             if (materia.getCarrera().getNombre().equals(carrera))
-            lista += materia.getNombre() + "@" + materia.getCreditos() + "@" + materia.getTipoMateria().getTipo() + "@@";
+                lista += materia.getNombre() + "@" + materia.getCreditos() + "@" + materia.getTipoMateria().getTipo() + "@" + materia.getCodigo() + "@@";
         }
-        Estudiante estudiante = obtenerEstudiante(codigoEstudiane);
+        Estudiante estudiante = obtenerEstudiante(codigoEstudiante);
         Matricula matricula1 = obtenerMatricula(estudiante);
         String creditos = "";
-        if(matricula1 == null) {
+        if (matricula1 == null) {
             creditos = "0";
         } else {
             creditos += matricula1.calcularCreditos();
         }
 
-        return lista + "@";
+        return lista + creditos;
+    }
+
+    public void guardarMatricula() throws IOException {
+        Persistencia.guardarMatriculas(getListaMatriculas());
+    }
+
+    public String mostrarMatricula(String codigoEstudiante) throws IOException {
+        String materias = "";
+        Estudiante estudiante = obtenerEstudiante(codigoEstudiante);
+        List<Matricula> matriculas = Persistencia.cargarMatriculas();
+        String valor = null, fecha = null;
+        for (Matricula matricula1 : matriculas) {
+            if (matricula1.getId().equals(codigoEstudiante)) {
+                valor = String.valueOf(matricula1.getCosto());
+                fecha = String.valueOf(matricula1.getFecha());
+                for (Materia materia : matricula1.getMaterias()) {
+                    materias += materia.getNombre() + "@";
+                }
+            }
+        }
+        StringBuilder sb = new StringBuilder(materias);
+        sb.deleteCharAt(materias.length() - 1);
+        materias = sb.toString();
+
+        String resultado = estudiante.getNombre() + "@@" + fecha + "@@" + valor + "@@" + materias;
+        return resultado;
     }
 }

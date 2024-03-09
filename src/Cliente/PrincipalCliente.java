@@ -104,13 +104,13 @@ public class PrincipalCliente {
         opcion = Integer.parseInt(JOptionPane.showInputDialog("Seleccione la carrera \n\n" + carreras));
         String opcionMateria = "";
         do {
-            String materias = "";
             cliente.enviarMensaje("3@"+carrerasServidor[opcion - 1]+"@"+estudiante); //para que devuelva las materias
+            String materias = "";
             materias += cliente.leerMensaje();
             String[] materiasServidor = materias.split("@@");
             materias = "";
             int k = 1;
-            for (int i = 0; i < materiasServidor.length; i++) {
+            for (int i = 0; i < materiasServidor.length - 1; i++) {
                 String[] materiasDetalladas = materiasServidor[i].split("@");
                 materias += k + ". ";
                 materias += materiasDetalladas[0] + " - ";
@@ -119,19 +119,42 @@ public class PrincipalCliente {
                 materias += "\n";
                 k++;
             }
-            materias += "\n\n Créditos inscritos: "+5;
+            materias += "\n\n Créditos inscritos: "+materiasServidor[materiasServidor.length-1];
 
             opcionMateria = JOptionPane.showInputDialog("Seleccione la materia que desea inscribir \n\n" + materias);
-            int creditos = Integer.parseInt(materiasServidor[Integer.parseInt(opcionMateria) - 1].split("@")[1]);
-            System.out.println(materiasServidor[Integer.parseInt(opcionMateria) - 1]+" "+creditos);
-            cliente.enviarMensaje("4@"+materiasServidor[Integer.parseInt(opcionMateria) - 1]);
-            // Cálculo I@4@teórica@123@6431@@ Cálculo 2@4@teórica@123@6431@@"
+
+            String codigoMateria = materiasServidor[Integer.parseInt(opcionMateria) - 1].split("@")[3];
+            cliente.enviarMensaje("4@"+codigoMateria+"@"+estudiante);
+            String respuestaMatricula = cliente.leerMensaje();
+            if (Integer.parseInt(respuestaMatricula) > 9 && Integer.parseInt(respuestaMatricula) < 15) {
+                // Preguntar si desea agregar más materias
+                int opcionAgregarMas = JOptionPane.showConfirmDialog(null,
+                        "¿Desea agregar más materias?", "Agregar Materias", JOptionPane.YES_NO_OPTION);
+
+                if (opcionAgregarMas == JOptionPane.NO_OPTION) {
+                    cliente.enviarMensaje("5");
+                    opcionMateria = null;
+                }
+            }
 
         } while(opcionMateria != null);
 
     }
 
-    private void consultarMatricula(String estudiante) {
+    private void consultarMatricula(String estudiante) throws IOException {
+        cliente.enviarMensaje("6@"+estudiante);
+        String respuesta = cliente.leerMensaje();
+        String[] matricula = respuesta.split("@@");
+        String nombre = matricula[0];
+        String fecha = matricula[1];
+        String valor = matricula[2];
+        respuesta += "Nombre: "+nombre + "\n" + "Fecha: "+fecha + "\n" + "Valor: "+valor + "\nMaterias: ";
+        String[] materias = matricula[3].split("@");
+        for (int i = 0; i < materias.length; i++) {
+            respuesta += materias[i] + "\n";
+        }
+        JOptionPane.showInputDialog(respuesta);
+
     }
 
 }

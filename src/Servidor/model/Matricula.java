@@ -14,6 +14,7 @@ public class Matricula implements Serializable {
     private Estudiante estudiante;
 
     public Matricula() {
+        materias = new ArrayList<>();
     }
 
     public String getId() {

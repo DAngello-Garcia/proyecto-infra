@@ -35,7 +35,15 @@ public class PrincipalServidor {
         return universidad.login(user, pass);
     }
 
-    public String matricular(String materia) throws IOException {
-        return universidad.matricular(materia);
+    public String matricular(String codigoMateria, String codigoEstudiante) throws IOException {
+        return universidad.matricular(codigoMateria, codigoEstudiante);
+    }
+
+    public void guardarMatricula() throws IOException {
+        universidad.guardarMatricula();
+    }
+
+    public String mostrarMatricula(String codigoEstudiante) throws IOException {
+        return universidad.mostrarMatricula(codigoEstudiante);
     }
 }

@@ -122,7 +122,6 @@ public class Persistencia {
             String[] partes = linea.split("@@");
             Matricula matricula = new Matricula();
             Estudiante estudiante = new Estudiante();
-            Materia materia = new Materia();
             ArrayList<Materia> materias = new ArrayList<>();
             matricula.setId(partes[0]);
             DateTimeFormatter parser = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -131,6 +130,7 @@ public class Persistencia {
             matricula.setEstadoMatricula(EstadoMatricula.valueOf(partes[3]));
             estudiante.setCodigo(partes[4]);
             for (int j = 5; j < partes.length; j++) {
+                Materia materia = new Materia();
                 materia.setNombre(partes[j]);
                 materias.add(materia);
             }

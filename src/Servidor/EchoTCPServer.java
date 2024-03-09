@@ -50,7 +50,15 @@ public class EchoTCPServer {
                 break;
 
             case "4":
-                respuesta = serv.matricular(resul[1]);
+                respuesta = serv.matricular(resul[1], resul[2]);
+                break;
+
+            case "5":
+                serv.guardarMatricula();
+                break;
+
+            case "6":
+                respuesta = serv.mostrarMatricula(resul[1]);
                 break;
 
         }
