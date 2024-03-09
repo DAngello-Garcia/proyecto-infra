@@ -38,8 +38,7 @@ public class EchoTCPServer {
 
         switch (resul[0]) {
             case "1":
-                if (serv.login(resul[1], resul[2]))
-                    respuesta = "ok";
+                respuesta = serv.login(resul[1], resul[2]);
                 break;
 
             case "2":
@@ -47,7 +46,7 @@ public class EchoTCPServer {
                 break;
 
             case "3":
-                respuesta = serv.mostrarMaterias(resul[1]);
+                respuesta = serv.mostrarMaterias(resul[1], resul[2]);
                 break;
 
             case "4":

@@ -71,4 +71,12 @@ public class Matricula implements Serializable {
         }
         return suma;
     }
+
+    public int calcularCreditos() {
+        int creditos = 0;
+        for (Materia materia : getMaterias()) {
+            creditos += materia.getCreditos();
+        }
+        return creditos;
+    }
 }

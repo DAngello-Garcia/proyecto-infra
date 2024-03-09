@@ -27,15 +27,15 @@ public class PrincipalServidor {
         return universidad.mostrarCarreras();
     }
 
-    public String mostrarMaterias(String carrera) throws IOException {
-        return universidad.mostrarMaterias(carrera);
+    public String mostrarMaterias(String carrera, String codigoEstudiane) throws IOException {
+        return universidad.mostrarMaterias(carrera, codigoEstudiane);
     }
 
-    public boolean login(String user, String pass) throws IOException {
+    public String login(String user, String pass) throws IOException {
         return universidad.login(user, pass);
     }
 
-    public String matricular(String materia) {
+    public String matricular(String materia) throws IOException {
         return universidad.matricular(materia);
     }
 }

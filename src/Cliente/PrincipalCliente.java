@@ -31,8 +31,9 @@ public class PrincipalCliente {
                     user = JOptionPane.showInputDialog("Ingrese su código: ");
                     pass = JOptionPane.showInputDialog("Ingrese su clave: ");
                     cliente.enviarMensaje(opcion + "@" + user + "@" + pass);
-                    if (cliente.leerMensaje().equals("ok"))
-                        menuMatricula();
+                    String estudiante = cliente.leerMensaje();
+                    if (!estudiante.equals(""))
+                        menuMatricula(estudiante);
                     else
                         JOptionPane.showMessageDialog(null, "Login o clave incorrecta. Vuelva a intentarlo");
                     break;
@@ -53,7 +54,7 @@ public class PrincipalCliente {
         while (opcion != 2);
     }
 
-    public void menuMatricula() throws IOException {
+    public void menuMatricula(String estudiante) throws IOException {
         int opcion;
         String respuesta;
         do {
@@ -64,11 +65,11 @@ public class PrincipalCliente {
 
             switch (opcion) {
                 case 1:
-                    menuMaterias();
+                    menuMaterias(estudiante);
                     break;
 
                 case 2:
-                    consultarMatricula();
+                    consultarMatricula(estudiante);
                     break;
 
                 case 3:
@@ -87,7 +88,7 @@ public class PrincipalCliente {
         while (opcion != 2);
     }
 
-    public void menuMaterias() throws IOException {
+    public void menuMaterias(String estudiante) throws IOException {
         int opcion;
         String respuesta;
         cliente.enviarMensaje("2"); //para que devuelva las carreras
@@ -101,10 +102,10 @@ public class PrincipalCliente {
         }
 
         opcion = Integer.parseInt(JOptionPane.showInputDialog("Seleccione la carrera \n\n" + carreras));
+        String opcionMateria = "";
         do {
-            int opcionMateria = 0;
             String materias = "";
-            cliente.enviarMensaje("3@"+carrerasServidor[opcion - 1]); //para que devuelva las materias
+            cliente.enviarMensaje("3@"+carrerasServidor[opcion - 1]+"@"+estudiante); //para que devuelva las materias
             materias += cliente.leerMensaje();
             String[] materiasServidor = materias.split("@@");
             materias = "";
@@ -112,21 +113,25 @@ public class PrincipalCliente {
             for (int i = 0; i < materiasServidor.length; i++) {
                 String[] materiasDetalladas = materiasServidor[i].split("@");
                 materias += k + ". ";
-                materias += materiasDetalladas[0] + "   ";
-                materias += materiasDetalladas[1] + " créditos   ";
-                materias += materiasDetalladas[2] + "   ";
+                materias += materiasDetalladas[0] + " - ";
+                materias += materiasDetalladas[1] + " créditos - ";
+                materias += materiasDetalladas[2];
                 materias += "\n";
                 k++;
             }
+            materias += "\n\n Créditos inscritos: "+5;
 
-            opcionMateria =
-                    Integer.parseInt(JOptionPane.showInputDialog("Seleccione la materia que desea inscribir \n\n" + materias));
+            opcionMateria = JOptionPane.showInputDialog("Seleccione la materia que desea inscribir \n\n" + materias);
+            int creditos = Integer.parseInt(materiasServidor[Integer.parseInt(opcionMateria) - 1].split("@")[1]);
+            System.out.println(materiasServidor[Integer.parseInt(opcionMateria) - 1]+" "+creditos);
+            cliente.enviarMensaje("4@"+materiasServidor[Integer.parseInt(opcionMateria) - 1]);
+            // Cálculo I@4@teórica@123@6431@@ Cálculo 2@4@teórica@123@6431@@"
 
-        } while(opcion != -1);
+        } while(opcionMateria != null);
 
     }
 
-    private void consultarMatricula() {
+    private void consultarMatricula(String estudiante) {
     }
 
 }
