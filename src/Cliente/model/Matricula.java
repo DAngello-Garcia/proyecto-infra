@@ -1,7 +1,7 @@
 package Cliente.model;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Matricula implements Serializable {
@@ -9,7 +9,7 @@ public class Matricula implements Serializable {
     private String id;
     private ArrayList<Materia> materias;
     private double costo;
-    private LocalDateTime fecha;
+    private LocalDate fecha;
     private EstadoMatricula estadoMatricula;
     private Estudiante estudiante;
 
@@ -40,11 +40,11 @@ public class Matricula implements Serializable {
         this.costo = costo;
     }
 
-    public LocalDateTime getFecha() {
+    public LocalDate getFecha() {
         return fecha;
     }
 
-    public void setFecha(LocalDateTime fecha) {
+    public void setFecha(LocalDate fecha) {
         this.fecha = fecha;
     }
 

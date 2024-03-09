@@ -1,0 +1,30 @@
+101@@Cálculo I@@4@@teórica@@100000@@6431
+102@@Biología Celular@@3@@práctica@@115000@@1267
+103@@Derecho Constitucional@@5@@teórico/práctica@@130000@@7542
+104@@Programación Avanzada@@4@@teórica@@100000@@5809
+105@@Arte Contemporáneo@@3@@práctica@@115000@@8702
+106@@Economía Internacional@@5@@teórica@@100000@@3948
+107@@Diseño Arquitectónico@@4@@práctica@@115000@@3156
+108@@Psicología Cognitiva@@4@@teórica@@100000@@4823
+109@@Administración Financiera@@5@@teórica@@100000@@9175
+110@@Ingeniería Estructural@@5@@práctica@@115000@@6431
+111@@Química Orgánica@@4@@teórica@@100000@@1267
+112@@Derecho Penal@@5@@teórico/práctica@@130000@@7542
+113@@Dibujo de Figura Humana@@3@@práctica@@115000@@8702
+114@@Macroeconomía@@4@@teórica@@100000@@3948
+115@@Fundamentos de Programación@@4@@teórica@@100000@@5809
+116@@Historia del Arte@@3@@teórica@@100000@@8702
+117@@Bioquímica@@5@@práctica@@115000@@1267
+118@@Diseño de Interiores@@4@@práctica@@115000@@3156
+119@@Neurociencia@@5@@teórica@@100000@@4823
+120@@Gestión Empresarial@@4@@teórica@@100000@@9175
+121@@Análisis Estructural@@5@@práctica@@115000@@6431
+122@@Fisiología Humana@@4@@práctica@@115000@@1267
+123@@Derecho Laboral@@4@@teórica@@100000@@7542
+124@@Inglés Avanzado@@3@@teórica@@100000@@5809
+125@@Pintura al Óleo@@3@@práctica@@115000@@8702
+126@@Microeconomía@@4@@teórica@@100000@@3948
+127@@Programación Orientada a Objetos@@5@@teórica@@100000@@5809
+128@@Sociología@@4@@teórica@@100000@@4823
+129@@Gestión de Proyectos@@5@@práctica@@115000@@9175
+130@@Diseño Web@@4@@práctica@@115000@@5809

@@ -1,16 +1,18 @@
-package Servidor.persistencia;
+package Servidor;
 
 import Servidor.model.*;
 
 import java.io.*;
-import java.time.LocalDateTime;
-import java.util.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Persistencia {
-    public static final String RUTA_ARCHIVO_ESTUDIANTES = "src/Servidor/archivostxt/Estudiantes.txt";
-    public static final String RUTA_ARCHIVO_MATRICULAS = "src/Servidor/archivostxt/Matriculas.txt";
-    public static final String RUTA_ARCHIVO_CARRERAS = "src/Servidor/archivostxt/Carreras.txt";
-    public static final String RUTA_ARCHIVO_MATERIAS = "src/Servidor/archivostxt/Materias.txt";
+    public static final String RUTA_ARCHIVO_ESTUDIANTES = "src/Servidor/archivos/estudiantes.txt";
+    public static final String RUTA_ARCHIVO_MATRICULAS = "src/Servidor/archivos/matriculas.txt";
+    public static final String RUTA_ARCHIVO_CARRERAS = "src/Servidor/archivos/carreras.txt";
+    public static final String RUTA_ARCHIVO_MATERIAS = "src/Servidor/archivos/materias.txt";
 
     public static void guardarEstudiantes(List<Estudiante> listaEstudiantes) throws IOException {
         String contenido = "";
@@ -31,9 +33,7 @@ public class Persistencia {
     public static void guardarMaterias(List<Materia> listaMaterias) throws IOException {
         String contenido = "";
         for (Materia materia : listaMaterias) {
-            contenido += materia.getCodigo() + "@@" + materia.getNombre() + "@@" + materia.getCreditos()
-                    + "@@" + materia.getTipoMateria().getTipo() + "@@" + materia.getTipoMateria().getCosto()
-                    + "@@" + materia.getCarrera().getCodigo() + "\n";
+            contenido += materia.getCodigo() + "@@" + materia.getNombre() + "@@" + materia.getCreditos() + "@@" + materia.getTipoMateria().getTipo() + "@@" + materia.getTipoMateria().getCosto() + "@@" + materia.getCarrera().getCodigo() + "\n";
         }
         guardarArchivo(RUTA_ARCHIVO_MATERIAS, contenido);
     }
@@ -41,8 +41,8 @@ public class Persistencia {
     public static void guardarMatriculas(List<Matricula> listaMatriculas) throws IOException {
         String contenido = "";
         for (Matricula matricula : listaMatriculas) {
-            contenido += matricula.getId() + "@@" + matricula.getFecha().toString() + "@@" + matricula.getCosto()+ "@@" + matricula.getEstadoMatricula().toString() + "@@" + matricula.getEstudiante().getCodigo();
-            for (Materia materia: matricula.getMaterias()) {
+            contenido += matricula.getId() + "@@" + matricula.getFecha().toString() + "@@" + matricula.getCosto() + "@@" + matricula.getEstadoMatricula().toString() + "@@" + matricula.getEstudiante().getCodigo();
+            for (Materia materia : matricula.getMaterias()) {
                 contenido += "@@" + materia.getNombre();
             }
             contenido += "\n";
@@ -122,14 +122,15 @@ public class Persistencia {
             String[] partes = linea.split("@@");
             Matricula matricula = new Matricula();
             Estudiante estudiante = new Estudiante();
-            Materia materia = new Materia();
             ArrayList<Materia> materias = new ArrayList<>();
             matricula.setId(partes[0]);
-            matricula.setFecha(LocalDateTime.parse(partes[1]));
+            DateTimeFormatter parser = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            matricula.setFecha(LocalDate.parse(partes[1], parser));
             matricula.setCosto(Double.parseDouble(partes[2]));
             matricula.setEstadoMatricula(EstadoMatricula.valueOf(partes[3]));
             estudiante.setCodigo(partes[4]);
             for (int j = 5; j < partes.length; j++) {
+                Materia materia = new Materia();
                 materia.setNombre(partes[j]);
                 materias.add(materia);
             }
@@ -159,6 +160,8 @@ public class Persistencia {
         List<Carrera> listaCarreras = cargarCarreras();
         List<Materia> listaMaterias = cargarMaterias();
         List<Matricula> listaMatriculas = cargarMatriculas();
+        listaMaterias = cargarCarrerasMaterias(listaCarreras, listaMaterias);
+        listaMatriculas = cargarEstudianteMateriasMatriculas(listaEstudiantes, listaMaterias, listaMatriculas);
 
         universidad.setListaEstudiantes(listaEstudiantes);
         universidad.setListaCarreras(listaCarreras);
@@ -166,4 +169,36 @@ public class Persistencia {
         universidad.setListaMatriculas(listaMatriculas);
     }
 
+    private static List<Matricula> cargarEstudianteMateriasMatriculas(List<Estudiante> listaEstudiantes, List<Materia> listaMaterias, List<Matricula> listaMatriculas) {
+        List<Matricula> matriculas = new ArrayList<>();
+        for (Matricula matricula: listaMatriculas) {
+            for (Estudiante estudiante: listaEstudiantes) {
+                if(estudiante.getCodigo().equals(matricula.getEstudiante().getCodigo())) {
+                    matricula.setEstudiante(estudiante);
+                }
+                for (Materia materiaMatricula: matricula.getMaterias()) {
+                    for (Materia materia: listaMaterias) {
+                        if(materiaMatricula.getNombre().equals(materia.getNombre())) {
+                            int index = matricula.getMaterias().indexOf(materiaMatricula);
+                            matricula.getMaterias().set(index, materia);
+                        }
+                    }
+                }
+            }
+            matriculas.add(matricula);
+        }
+        return matriculas;
+    }
+
+    private static List<Materia> cargarCarrerasMaterias(List<Carrera> listaCarreras, List<Materia> listaMaterias) {
+        List<Materia> materias = new ArrayList<>();
+        for (Materia materia: listaMaterias) {
+            for (Carrera carrera: listaCarreras) {
+                if(materia.getCarrera().getCodigo().equals(carrera.getCodigo()))
+                    materia.setCarrera(carrera);
+            }
+            materias.add(materia);
+        }
+        return materias;
+    }
 }
